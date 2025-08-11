@@ -1,26 +1,53 @@
 // swift-tools-version: 6.2
-// The swift-tools-version declares the minimum version of Swift required to build this package.
-
 import PackageDescription
 
 let package = Package(
     name: "ProxSync",
+    platforms: [
+        .iOS(.v26)
+    ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
-        .library(
-            name: "ProxSync",
-            targets: ["ProxSync"]
-        ),
+        .library(name: "ProxSyncCore", targets: ["ProxSyncCore"]),
+        .library(name: "ProxSyncNearby", targets: ["ProxSyncNearby"]),
+        .library(name: "ProxSyncHealth", targets: ["ProxSyncHealth"]),
+        .library(name: "ProxSyncREST", targets: ["ProxSyncREST"]),
+        .library(name: "ProxSyncLocal", targets: ["ProxSyncLocal"]),
+        .library(name: "ProxSyncSupabase", targets: ["ProxSyncSupabase"]),
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "ProxSync"
+            name: "ProxSyncCore",
+            path: "Sources/ProxSyncCore"
+        ),
+        .target(
+            name: "ProxSyncNearby",
+            dependencies: ["ProxSyncCore"],
+            path: "Sources/ProxSyncNearby"
+        ),
+        .target(
+            name: "ProxSyncHealth",
+            dependencies: ["ProxSyncCore"],
+            path: "Sources/ProxSyncHealth"
+        ),
+        .target(
+            name: "ProxSyncREST",
+            dependencies: ["ProxSyncCore", "ProxSyncLocal"],
+            path: "Sources/ProxSyncREST"
+        ),
+        .target(
+            name: "ProxSyncLocal",
+            dependencies: ["ProxSyncCore"],
+            path: "Sources/ProxSyncLocal"
+        ),
+        .target(
+            name: "ProxSyncSupabase",
+            dependencies: ["ProxSyncCore", "ProxSyncLocal", "ProxSyncREST"],
+            path: "Sources/ProxSyncSupabase"
         ),
         .testTarget(
-            name: "ProxSyncTests",
-            dependencies: ["ProxSync"]
-        ),
+            name: "ProxSyncCoreTests",
+            dependencies: ["ProxSyncCore"],
+            path: "Tests/ProxSyncCoreTests"
+        )
     ]
 )
