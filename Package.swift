@@ -13,6 +13,8 @@ let package = Package(
         .library(name: "ProxSyncREST", targets: ["ProxSyncREST"]),
         .library(name: "ProxSyncLocal", targets: ["ProxSyncLocal"]),
         .library(name: "ProxSyncSupabase", targets: ["ProxSyncSupabase"]),
+        .library(name: "ProxSyncAuth", targets: ["ProxSyncAuth"]),
+        .library(name: "ProxSyncAuthSupabase", targets: ["ProxSyncAuthSupabase"]),
     ],
     targets: [
         .target(
@@ -44,6 +46,15 @@ let package = Package(
             dependencies: ["ProxSyncCore", "ProxSyncLocal", "ProxSyncREST"],
             path: "Sources/ProxSyncSupabase"
         ),
+        .target(
+                   name: "ProxSyncAuth",
+                   path: "Sources/ProxSyncAuth"
+        ),
+       .target(
+           name: "ProxSyncAuthSupabase",
+           dependencies: ["ProxSyncAuth"],
+           path: "Sources/ProxSyncAuthSupabase"
+       ),
         .testTarget(
             name: "ProxSyncCoreTests",
             dependencies: ["ProxSyncCore"],
